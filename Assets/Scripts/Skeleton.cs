@@ -14,7 +14,6 @@ public class Skeleton : MonoBehaviour
     public Sprite frame1, frame2;
 
     private bool dying = false;
-    private bool hopping = false;
 
     // Start is called before the first frame update
     void Start(){
@@ -41,45 +40,27 @@ public class Skeleton : MonoBehaviour
             }else{
                 transform.localScale = new Vector3(-1,1);
             }
-
-            if(!hopping){
-                // rb.velocity = new Vector3(1.0f, rb.velocity.y) * moveSpeed;
-                // RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, 0.01f, LayerMask.GetMask("Vines"));
-                // if (hit.collider != null){
-                //     hopping = true;
-                //     rb.velocity = new Vector3(0, rb.velocity.y);
-                //     vine = hit.transform.gameObject;
-                //     vine.GetComponent<Vines>().crushed = true;
-                // }
-            }
             
         }
 
     }
 
     void FixedUpdate(){
-        if(!hopping){
-            if(!dying){
-                if (direction == Directions.right){
-                    rb.velocity = new Vector3(1.0f, rb.velocity.y) * moveSpeed;
-                    RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right, 0.3f, LayerMask.GetMask("Ground"));
-                    if (hit.collider != null){
-                        dying = true;
-                        rb.velocity = new Vector3(0, rb.velocity.y);
-                    }
-                }else{
-                    rb.velocity = new Vector3(-1.0f, rb.velocity.y) * moveSpeed;
-                    RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.right, 0.3f, LayerMask.GetMask("Ground"));
-                    if (hit.collider != null){
-                        dying = true;
-                        rb.velocity = new Vector3(0, rb.velocity.y);
-                    }
+        if(!dying){
+            if (direction == Directions.right){
+                rb.velocity = new Vector3(1.0f, rb.velocity.y) * moveSpeed;
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right, 0.3f, LayerMask.GetMask("Ground"));
+                if (hit.collider != null){
+                    dying = true;
+                    rb.velocity = new Vector3(0, rb.velocity.y);
                 }
-            }
-        } else {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up, 0.4f, LayerMask.GetMask("Ground"));
-            if (hit.collider != null){
-                rb.velocity = new Vector3(0,2);
+            }else{
+                rb.velocity = new Vector3(-1.0f, rb.velocity.y) * moveSpeed;
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.right, 0.3f, LayerMask.GetMask("Ground"));
+                if (hit.collider != null){
+                    dying = true;
+                    rb.velocity = new Vector3(0, rb.velocity.y);
+                }
             }
         }
         

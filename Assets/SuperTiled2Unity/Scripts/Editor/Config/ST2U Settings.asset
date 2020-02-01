@@ -58,3 +58,9 @@ MonoBehaviour:
   - m_TypeName: Ladder
     m_Prefab: {fileID: 5590096832056418019, guid: 17187567c3abd304ca829ff3fc5e73e6,
       type: 3}
+  - m_TypeName: Spikes
+    m_Prefab: {fileID: 6573215630576570599, guid: 5437bf92135d2ab40bda20eb6c8f202d,
+      type: 3}
+  - m_TypeName: PlantBase
+    m_Prefab: {fileID: 8702456020963948266, guid: 0a04a0886bf3ec54db9aa3a7b9234c63,
+      type: 3}
