@@ -5,14 +5,20 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
 
-    enum Directions{left, right, up, down}
+    private enum Directions{left, right, up, down}
 
     private Vector3 movement;
     public float movementSpeed = 2.0f;
     private Directions direction;
+    private Directions returnToDirection;
     private Rigidbody2D rb;
     private bool canGoUpLadder, canGoDownLadder, isOnLadder;
     private bool isSummoning;
+    public Sprite move1, move2, climb1, climb2, summon1, summon2;
+    private bool turnToCentre = false;
+    public float spinSpeed = 0.1f;
+    private float summonAnimation = 0.0f;
+    public float summonAnimSpeed = 0.01f;
 
 
     // Start is called before the first frame update
@@ -46,12 +52,16 @@ public class Player : MonoBehaviour
         isOnLadder = true;
         rb.gravityScale = 0.0f;
         transform.position = new Vector3(Mathf.Round(transform.position.x+0.5f)-0.5f, transform.position.y);
+        turnToCentre = true;
+        returnToDirection = direction;
     }
 
     void DismountLadder(){
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Ground"), false);
         isOnLadder = false;
         rb.gravityScale = 1.0f;
+        turnToCentre = true;
+        direction = returnToDirection;
     }
 
     void HandleInput(){
@@ -71,8 +81,9 @@ public class Player : MonoBehaviour
                 if(canGoDownLadder){
                     MountLadder();
                 }
-            }else if(Input.GetButton("Fire1")){
+            }else if(Input.GetButton("Fire1") && !isSummoning){
                 isSummoning = true;
+                turnToCentre = true;
                 transform.Find("SummoningMenu").gameObject.SetActive(true);
                 transform.Find("SummoningCircle1").gameObject.SetActive(true);
                 transform.Find("SummoningCircle2").gameObject.SetActive(true);
@@ -115,20 +126,65 @@ public class Player : MonoBehaviour
     }
 
     void Animate(){
-        if (isSummoning){
-            transform.localScale = new Vector3(1, 1);
-        }else if (isOnLadder){
-            transform.localScale = new Vector3(1, 1);
-        }else{
-            if(direction == Directions.left && transform.localScale.x>-1){
-                transform.localScale += new Vector3(-0.1f, 0);
-            }else if (direction == Directions.right && transform.localScale.x<1){
-                transform.localScale += new Vector3(0.1f, 0);
+        if (turnToCentre){
+
+            if(transform.localScale.x>spinSpeed){
+                transform.localScale += new Vector3(-spinSpeed, 0);
+            }else if(transform.localScale.x<-spinSpeed){
+                transform.localScale += new Vector3(spinSpeed, 0);
             }
+            if(Mathf.Abs(transform.localScale.x) < spinSpeed){
+                turnToCentre = false;
+            }
+
+        }else if (isSummoning){
+
+            if (transform.localScale.x<1){
+                transform.localScale += new Vector3(spinSpeed, 0);
+            }
+
+            summonAnimation += summonAnimSpeed;
+            if(summonAnimation>=1){
+                summonAnimation = 0;
+            }
+
+            if(summonAnimation < 0.5f){
+                GetComponent<SpriteRenderer>().sprite = summon1;
+            }else{
+                GetComponent<SpriteRenderer>().sprite = summon2;
+            }
+
+        }else if (isOnLadder){
+
+            if (transform.localScale.x<1){
+                transform.localScale += new Vector3(spinSpeed, 0);
+            }
+
+            if(Mathf.Abs(transform.position.y % 1) < 0.5f){
+                GetComponent<SpriteRenderer>().sprite = climb1;
+            }else{
+                GetComponent<SpriteRenderer>().sprite = climb2;
+            }
+
+        }else{
+
+            if(Mathf.Abs(transform.position.x % 1) < 0.5){
+                GetComponent<SpriteRenderer>().sprite = move1;
+            }else{
+                GetComponent<SpriteRenderer>().sprite = move2;
+            }
+
+            if(direction == Directions.left && transform.localScale.x>-1){
+                transform.localScale += new Vector3(-spinSpeed, 0);
+            }else if (direction == Directions.right && transform.localScale.x<1){
+                transform.localScale += new Vector3(spinSpeed, 0);
+            }
+
         }
     }
 
     public void StopSummoning(){
         isSummoning = false;
+        turnToCentre = true;
     }
 }
