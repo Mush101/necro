@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Skeleton : MonoBehaviour
+public class Slime : MonoBehaviour
 {
-
     public enum Directions {left, right}
 
     public Directions direction = Directions.right;
@@ -49,14 +48,14 @@ public class Skeleton : MonoBehaviour
         if(!dying){
             if (direction == Directions.right){
                 rb.velocity = new Vector3(1.0f, rb.velocity.y) * moveSpeed;
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right, 0.3f, LayerMask.GetMask("Ground", "Vines"));
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right, 0.5f, LayerMask.GetMask("Ground", "Vines", "Spikes"));
                 if (hit.collider != null){
                     dying = true;
                     rb.velocity = new Vector3(0, rb.velocity.y);
                 }
             }else{
                 rb.velocity = new Vector3(-1.0f, rb.velocity.y) * moveSpeed;
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.right, 0.3f, LayerMask.GetMask("Ground", "Vines"));
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.right, 0.5f, LayerMask.GetMask("Ground", "Vines", "Spikes"));
                 if (hit.collider != null){
                     dying = true;
                     rb.velocity = new Vector3(0, rb.velocity.y);

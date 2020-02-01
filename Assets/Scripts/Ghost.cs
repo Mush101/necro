@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Skeleton : MonoBehaviour
+public class Ghost : MonoBehaviour
 {
-
     public enum Directions {left, right}
 
     public Directions direction = Directions.right;
@@ -43,30 +42,37 @@ public class Skeleton : MonoBehaviour
             
         }
 
+        KillPeople();
+
+    }
+
+    void KillPeople(){
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, 0.01f, LayerMask.GetMask("Skeleton", "Slime", "Zombie"));
+        if (hit.collider != null){
+            GameObject other = hit.transform.gameObject;
+            if(other.GetComponent<Zombie>()){
+                other.GetComponent<Zombie>().GetGhosted();
+            }else if(other.GetComponent<Slime>()){
+                other.GetComponent<Slime>().GetGhosted();
+            }else if(other.GetComponent<Skeleton>()){
+                other.GetComponent<Skeleton>().GetGhosted();
+            }
+            GetGhosted();
+        }
     }
 
     void FixedUpdate(){
         if(!dying){
             if (direction == Directions.right){
                 rb.velocity = new Vector3(1.0f, rb.velocity.y) * moveSpeed;
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right, 0.3f, LayerMask.GetMask("Ground", "Vines"));
-                if (hit.collider != null){
-                    dying = true;
-                    rb.velocity = new Vector3(0, rb.velocity.y);
-                }
             }else{
                 rb.velocity = new Vector3(-1.0f, rb.velocity.y) * moveSpeed;
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.right, 0.3f, LayerMask.GetMask("Ground", "Vines"));
-                if (hit.collider != null){
-                    dying = true;
-                    rb.velocity = new Vector3(0, rb.velocity.y);
-                }
             }
         }
         
     }
 
-    public void GetGhosted(){
+    void GetGhosted(){
         Destroy(gameObject);
     }
 }

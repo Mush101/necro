@@ -107,6 +107,20 @@ public class SummoningMenu : MonoBehaviour
                 mob.GetComponent<Skeleton>().direction = Skeleton.Directions.right;
             else
                 mob.GetComponent<Skeleton>().direction = Skeleton.Directions.left;
+        }else if ((c1 == Enums.Components.goo && c2 == Enums.Components.goo)){
+            GameObject mob = Instantiate(slimePrefab);
+            mob.transform.position = player.transform.position + new Vector3(0,0.2f);
+            if(player.GetComponent<Player>().IsFacingRight())
+                mob.GetComponent<Slime>().direction = Slime.Directions.right;
+            else
+                mob.GetComponent<Slime>().direction = Slime.Directions.left;
+        }else if ((c1 == Enums.Components.cloth && c2 == Enums.Components.goo) || (c2 == Enums.Components.cloth && c1 == Enums.Components.goo)){
+            GameObject mob = Instantiate(ghostPrefab);
+            mob.transform.position = player.transform.position + new Vector3(0,0.2f);
+            if(player.GetComponent<Player>().IsFacingRight())
+                mob.GetComponent<Ghost>().direction = Ghost.Directions.right;
+            else
+                mob.GetComponent<Ghost>().direction = Ghost.Directions.left;
         }
 
         summoningCircle2.GetComponent<SummoningCircle>().component = Enums.Components.none;

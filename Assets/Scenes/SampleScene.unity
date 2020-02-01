@@ -698,11 +698,13 @@ MonoBehaviour:
   summoningCircle2: {fileID: 1664519793}
   zombiePrefab: {fileID: 5760563814878554939, guid: 66894fa20fbdc2b4da9411ec557686f5,
     type: 3}
-  slimePrefab: {fileID: 0}
+  slimePrefab: {fileID: 6360912603897019502, guid: 3d5f297b7367f33459afe7ce68387666,
+    type: 3}
   skeletonPrefab: {fileID: 2213746738934131095, guid: 1eb9fb374cf92e14d8e94303a0d55f8e,
     type: 3}
   fishPrefab: {fileID: 0}
-  ghostPrefab: {fileID: 0}
+  ghostPrefab: {fileID: 6703542948901514704, guid: e098630ceda7adc4cb7c8eb3632a7c87,
+    type: 3}
   mummyPrefab: {fileID: 0}
 --- !u!1 &962218608 stripped
 GameObject:

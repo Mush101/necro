@@ -87,7 +87,7 @@ public class Zombie : MonoBehaviour
         
     }
 
-    void GetGhosted(){
+    public void GetGhosted(){
         if(vine!=null){
             vine.GetComponent<Vines>().crushed = false;
         }
