@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     private Directions direction;
     private Rigidbody2D rb;
     private bool canGoUpLadder, canGoDownLadder, isOnLadder;
+    private bool isSummoning;
 
 
     // Start is called before the first frame update
@@ -28,11 +29,13 @@ public class Player : MonoBehaviour
     }
 
     void FixedUpdate(){
-        Move();
+        if(!isSummoning){
+            Move();
+        }
     }
 
     void FigureOutLadders(){
-        RaycastHit2D hit = Physics2D.Raycast(transform.position + new Vector3(0,-0.4f), Vector2.up, 0.4f, LayerMask.GetMask("Ladder"));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position + new Vector3(0,-0.35f), Vector2.up, 0.4f, LayerMask.GetMask("Ladder"));
         canGoUpLadder = hit.collider != null;
         hit = Physics2D.Raycast(transform.position + new Vector3(0, -0.5f), -Vector2.up, 0.5f, LayerMask.GetMask("Ladder"));
         canGoDownLadder = hit.collider != null;
@@ -68,6 +71,11 @@ public class Player : MonoBehaviour
                 if(canGoDownLadder){
                     MountLadder();
                 }
+            }else if(Input.GetButton("Fire1")){
+                isSummoning = true;
+                transform.Find("SummoningMenu").gameObject.SetActive(true);
+                transform.Find("SummoningCircle1").gameObject.SetActive(true);
+                transform.Find("SummoningCircle2").gameObject.SetActive(true);
             }
         }else{
             if(Input.GetAxis("Vertical") > 0){
@@ -107,10 +115,20 @@ public class Player : MonoBehaviour
     }
 
     void Animate(){
-        if(direction == Directions.left && transform.localScale.x>-1){
-            transform.localScale += new Vector3(-0.1f, 0);
-        }else if (direction == Directions.right && transform.localScale.x<1){
-            transform.localScale += new Vector3(0.1f, 0);
+        if (isSummoning){
+            transform.localScale = new Vector3(1, 1);
+        }else if (isOnLadder){
+            transform.localScale = new Vector3(1, 1);
+        }else{
+            if(direction == Directions.left && transform.localScale.x>-1){
+                transform.localScale += new Vector3(-0.1f, 0);
+            }else if (direction == Directions.right && transform.localScale.x<1){
+                transform.localScale += new Vector3(0.1f, 0);
+            }
         }
+    }
+
+    public void StopSummoning(){
+        isSummoning = false;
     }
 }
