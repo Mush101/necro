@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     private float summonAnimation = 0.0f;
     public float summonAnimSpeed = 0.01f;
 
+    private bool justPressed;
 
     // Start is called before the first frame update
     void Start(){
@@ -30,7 +31,10 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update(){
         FigureOutLadders();
-        HandleInput();
+        ShowSummoningMenu();
+        if(!isSummoning){
+            HandleInput();
+        }
         Animate();
     }
 
@@ -64,6 +68,14 @@ public class Player : MonoBehaviour
         direction = returnToDirection;
     }
 
+    void ShowSummoningMenu(){
+        if(isSummoning && !turnToCentre){
+            transform.Find("SummoningMenu").gameObject.SetActive(true);
+            transform.Find("SummoningCircle1").gameObject.SetActive(true);
+            transform.Find("SummoningCircle2").gameObject.SetActive(true);
+        }
+    }
+
     void HandleInput(){
         movement = new Vector3();
         if(!isOnLadder){
@@ -82,11 +94,14 @@ public class Player : MonoBehaviour
                     MountLadder();
                 }
             }else if(Input.GetButton("Fire1") && !isSummoning){
-                isSummoning = true;
-                turnToCentre = true;
-                transform.Find("SummoningMenu").gameObject.SetActive(true);
-                transform.Find("SummoningCircle1").gameObject.SetActive(true);
-                transform.Find("SummoningCircle2").gameObject.SetActive(true);
+                if(!justPressed){
+                    isSummoning = true;
+                    turnToCentre = true;
+                    rb.velocity = new Vector3();
+                }
+                justPressed = true;
+            }else{
+                justPressed = false;
             }
         }else{
             if(Input.GetAxis("Vertical") > 0){
@@ -108,12 +123,12 @@ public class Player : MonoBehaviour
     void Move(){
         // Check for walking off edges.
         if(direction == Directions.right){
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right - Vector2.up, 1.0f, LayerMask.GetMask("Ground"));
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right - Vector2.up, 1.0f, LayerMask.GetMask("Ground", "Vines"));
             if (hit.collider == null){
                 movement = new Vector3();
             }
         }else if (direction == Directions.left){
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, - Vector2.right - Vector2.up, 1.0f, LayerMask.GetMask("Ground"));
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, - Vector2.right - Vector2.up, 1.0f, LayerMask.GetMask("Ground", "Vines"));
             if (hit.collider == null){
                 movement = new Vector3();
             }
@@ -186,5 +201,9 @@ public class Player : MonoBehaviour
     public void StopSummoning(){
         isSummoning = false;
         turnToCentre = true;
+    }
+
+    public bool IsFacingRight(){
+        return direction == Directions.right;
     }
 }

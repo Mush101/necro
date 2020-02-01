@@ -11,6 +11,8 @@ public class SummoningMenu : MonoBehaviour
     bool justPressedButton = true;
     public GameObject player, summoningCircle1, summoningCircle2;
 
+    public GameObject zombiePrefab, slimePrefab, skeletonPrefab, fishPrefab, ghostPrefab, mummyPrefab;
+
     // Start is called before the first frame update
     void Start(){
         currentComponent = Enums.Components.bone;
@@ -71,7 +73,13 @@ public class SummoningMenu : MonoBehaviour
 
                 }else if(summoningCircle2.GetComponent<SummoningCircle>().component == Enums.Components.none){
                     summoningCircle2.GetComponent<SummoningCircle>().component = currentComponent;
-                    
+
+                }else{
+                    player.GetComponent<Player>().StopSummoning();
+                    gameObject.SetActive(false);
+                    summoningCircle1.SetActive(false);
+                    summoningCircle2.SetActive(false);
+                    Summon();
                 }
             }
         }else{
@@ -81,20 +89,44 @@ public class SummoningMenu : MonoBehaviour
         MoveArrow();
     }
 
+    void Summon(){
+
+        Enums.Components c1 = summoningCircle1.GetComponent<SummoningCircle>().component;
+        Enums.Components c2 = summoningCircle2.GetComponent<SummoningCircle>().component;
+        if ((c1 == Enums.Components.bone && c2 == Enums.Components.cloth) || (c2 == Enums.Components.bone && c1 == Enums.Components.cloth)){
+            GameObject zom = Instantiate(zombiePrefab);
+            zom.transform.position = player.transform.position + new Vector3(0,0.2f);
+            if(player.GetComponent<Player>().IsFacingRight())
+                zom.GetComponent<Zombie>().direction = Zombie.Directions.right;
+            else
+                zom.GetComponent<Zombie>().direction = Zombie.Directions.left;
+        }
+
+        summoningCircle2.GetComponent<SummoningCircle>().component = Enums.Components.none;
+        summoningCircle1.GetComponent<SummoningCircle>().component = Enums.Components.none;
+
+    }
+
     void MoveArrow(){
 
         GameObject arrow = transform.Find("Arrow").gameObject;
 
-        switch(currentComponent){
-            case Enums.Components.bone:
-                arrow.transform.position = new Vector3(transform.Find("Bone").position.x, arrow.transform.position.y);
-                break;
-            case Enums.Components.cloth:
-                arrow.transform.position = new Vector3(transform.Find("Cloth").position.x, arrow.transform.position.y);
-                break;
-            case Enums.Components.goo:
-                arrow.transform.position = new Vector3(transform.Find("Goo").position.x, arrow.transform.position.y);
-                break;
+        if (summoningCircle1.GetComponent<SummoningCircle>().component != Enums.Components.none && summoningCircle2.GetComponent<SummoningCircle>().component != Enums.Components.none){
+            arrow.transform.position = new Vector3(transform.position.x, transform.position.y + 2.8f);
+        }else{
+            arrow.transform.position = new Vector3(0, transform.position.y + 0.9f);
+
+            switch(currentComponent){
+                case Enums.Components.bone:
+                    arrow.transform.position = new Vector3(transform.Find("Bone").position.x, arrow.transform.position.y);
+                    break;
+                case Enums.Components.cloth:
+                    arrow.transform.position = new Vector3(transform.Find("Cloth").position.x, arrow.transform.position.y);
+                    break;
+                case Enums.Components.goo:
+                    arrow.transform.position = new Vector3(transform.Find("Goo").position.x, arrow.transform.position.y);
+                    break;
+            }
         }
     }
 }
