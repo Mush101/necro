@@ -54,4 +54,7 @@ MonoBehaviour:
   - {r: 0, g: 1, b: 1, a: 1}
   - {r: 0.7372549, g: 0.56078434, b: 0.56078434, a: 1}
   m_CustomObjectTypes: []
-  m_PrefabReplacements: []
+  m_PrefabReplacements:
+  - m_TypeName: Ladder
+    m_Prefab: {fileID: 5590096832056418019, guid: 17187567c3abd304ca829ff3fc5e73e6,
+      type: 3}
