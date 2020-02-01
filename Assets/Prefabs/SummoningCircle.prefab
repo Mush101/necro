@@ -95,6 +95,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a1f1d43f9005194ca2067441c262247, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bone: {fileID: 21300000, guid: ff38d4173cbb8cd43a62785162db9b4a, type: 3}
+  cloth: {fileID: 21300000, guid: b2bc52f3347b828428e6eb20e204f442, type: 3}
+  goo: {fileID: 21300000, guid: 92da850e6602d024c945a7a95682b079, type: 3}
 --- !u!1 &8780892314553020419
 GameObject:
   m_ObjectHideFlags: 0

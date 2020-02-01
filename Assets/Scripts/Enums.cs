@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class Enums
 {
-    public enum Components {bone, cloth, goo};
+    public enum Components {bone, cloth, goo, none};
 }
