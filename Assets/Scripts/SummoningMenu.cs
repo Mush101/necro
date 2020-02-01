@@ -94,12 +94,19 @@ public class SummoningMenu : MonoBehaviour
         Enums.Components c1 = summoningCircle1.GetComponent<SummoningCircle>().component;
         Enums.Components c2 = summoningCircle2.GetComponent<SummoningCircle>().component;
         if ((c1 == Enums.Components.bone && c2 == Enums.Components.cloth) || (c2 == Enums.Components.bone && c1 == Enums.Components.cloth)){
-            GameObject zom = Instantiate(zombiePrefab);
-            zom.transform.position = player.transform.position + new Vector3(0,0.2f);
+            GameObject mob = Instantiate(zombiePrefab);
+            mob.transform.position = player.transform.position + new Vector3(0,0.2f);
             if(player.GetComponent<Player>().IsFacingRight())
-                zom.GetComponent<Zombie>().direction = Zombie.Directions.right;
+                mob.GetComponent<Zombie>().direction = Zombie.Directions.right;
             else
-                zom.GetComponent<Zombie>().direction = Zombie.Directions.left;
+                mob.GetComponent<Zombie>().direction = Zombie.Directions.left;
+        }else if ((c1 == Enums.Components.bone && c2 == Enums.Components.bone)){
+            GameObject mob = Instantiate(skeletonPrefab);
+            mob.transform.position = player.transform.position + new Vector3(0,0.2f);
+            if(player.GetComponent<Player>().IsFacingRight())
+                mob.GetComponent<Skeleton>().direction = Skeleton.Directions.right;
+            else
+                mob.GetComponent<Skeleton>().direction = Skeleton.Directions.left;
         }
 
         summoningCircle2.GetComponent<SummoningCircle>().component = Enums.Components.none;

@@ -209,6 +209,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2805265850588145592, guid: 58d56ceb407e35c40848797c4d066beb,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: -1770117511423670849, guid: 58d56ceb407e35c40848797c4d066beb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -694,7 +699,8 @@ MonoBehaviour:
   zombiePrefab: {fileID: 5760563814878554939, guid: 66894fa20fbdc2b4da9411ec557686f5,
     type: 3}
   slimePrefab: {fileID: 0}
-  skeletonPrefab: {fileID: 0}
+  skeletonPrefab: {fileID: 2213746738934131095, guid: 1eb9fb374cf92e14d8e94303a0d55f8e,
+    type: 3}
   fishPrefab: {fileID: 0}
   ghostPrefab: {fileID: 0}
   mummyPrefab: {fileID: 0}
