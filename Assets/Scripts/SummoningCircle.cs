@@ -29,7 +29,7 @@ public class SummoningCircle : MonoBehaviour
                 break;
             case Enums.Components.cloth:
                 item.SetActive(true);
-                item.GetComponent<SpriteRenderer>().sprite = goo;
+                item.GetComponent<SpriteRenderer>().sprite = cloth;
                 break;
             case Enums.Components.goo:
                 item.SetActive(true);

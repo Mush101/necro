@@ -7,7 +7,8 @@ public class SummoningMenu : MonoBehaviour
 
     Enums.Components currentComponent;
 
-    bool justPressed = false;
+    bool justPressed = true;
+    bool justPressedButton = true;
     public GameObject player, summoningCircle1, summoningCircle2;
 
     // Start is called before the first frame update
@@ -17,6 +18,7 @@ public class SummoningMenu : MonoBehaviour
 
     // Update is called once per frame
     void Update(){
+
         if(Input.GetAxis("Horizontal") > 0){
             if(!justPressed){
                 switch(currentComponent){
@@ -41,17 +43,41 @@ public class SummoningMenu : MonoBehaviour
                 }
                 justPressed = true;
             }
-        }else if(Input.GetButton("Fire2")){
-            if(!justPressed){
-                player.GetComponent<Player>().StopSummoning();
-                justPressed = true;
-                gameObject.SetActive(false);
-                summoningCircle1.SetActive(false);
-                summoningCircle2.SetActive(false);
-            }
         }else{
             justPressed = false;
         }
+
+        if(Input.GetButton("Fire2")){
+            if(!justPressedButton){
+                justPressedButton = true;
+
+                if(summoningCircle2.GetComponent<SummoningCircle>().component != Enums.Components.none){
+                    summoningCircle2.GetComponent<SummoningCircle>().component = Enums.Components.none;
+                }else if(summoningCircle1.GetComponent<SummoningCircle>().component != Enums.Components.none){
+                    summoningCircle1.GetComponent<SummoningCircle>().component = Enums.Components.none;
+                }else{
+                    player.GetComponent<Player>().StopSummoning();
+                    gameObject.SetActive(false);
+                    summoningCircle1.SetActive(false);
+                    summoningCircle2.SetActive(false);
+                }
+            }
+        }else if(Input.GetButton("Fire1")){
+            if(!justPressedButton){
+                justPressedButton = true;
+                
+                if(summoningCircle1.GetComponent<SummoningCircle>().component == Enums.Components.none){
+                    summoningCircle1.GetComponent<SummoningCircle>().component = currentComponent;
+
+                }else if(summoningCircle2.GetComponent<SummoningCircle>().component == Enums.Components.none){
+                    summoningCircle2.GetComponent<SummoningCircle>().component = currentComponent;
+                    
+                }
+            }
+        }else{
+            justPressedButton = false;
+        }
+
         MoveArrow();
     }
 

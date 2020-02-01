@@ -43,7 +43,7 @@ public class Player : MonoBehaviour
     void FigureOutLadders(){
         RaycastHit2D hit = Physics2D.Raycast(transform.position + new Vector3(0,-0.35f), Vector2.up, 0.4f, LayerMask.GetMask("Ladder"));
         canGoUpLadder = hit.collider != null;
-        hit = Physics2D.Raycast(transform.position + new Vector3(0, -0.5f), -Vector2.up, 0.5f, LayerMask.GetMask("Ladder"));
+        hit = Physics2D.Raycast(transform.position + new Vector3(0, -0.6f), -Vector2.up, 0.5f, LayerMask.GetMask("Ladder"));
         canGoDownLadder = hit.collider != null;
     }
 
