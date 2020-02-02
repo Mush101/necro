@@ -14,6 +14,9 @@ public class Gate : MonoBehaviour
     void Start()
     {
         headPos = transform.position + new Vector3(0, 0.5f);
+
+        char num = gameObject.name[4];
+        number = Button.charToInt(num);
     }
 
     // Update is called once per frame
@@ -29,5 +32,7 @@ public class Gate : MonoBehaviour
 
         transform.localScale = new Vector3(1,openAmount);
         transform.position = headPos - new Vector3(0,openAmount/2);
+
+        GetComponent<SpriteRenderer>().color = Button.colours[number];
     }
 }

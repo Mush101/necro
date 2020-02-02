@@ -15,6 +15,8 @@ public class Skeleton : MonoBehaviour
 
     private bool dying = false;
 
+    public bool stop = false;
+
     // Start is called before the first frame update
     void Start(){
         rb = GetComponent<Rigidbody2D>();
@@ -46,7 +48,7 @@ public class Skeleton : MonoBehaviour
     }
 
     void FixedUpdate(){
-        if(!dying){
+        if(!dying && !stop){
             if (direction == Directions.right){
                 rb.velocity = new Vector3(1.0f, rb.velocity.y) * moveSpeed;
                 RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right, 0.3f, LayerMask.GetMask("Ground", "Vines"));
