@@ -23,11 +23,13 @@ public class Player : MonoBehaviour
     private bool justPressed;
 
     private GameObject checkpoint;
+    private GameObject summoningMenu;
 
     // Start is called before the first frame update
     void Start(){
         direction = Directions.right;
         rb = GetComponent<Rigidbody2D>();
+        summoningMenu = transform.Find("SummoningMenu").gameObject;
     }
 
     // Update is called once per frame
@@ -35,6 +37,7 @@ public class Player : MonoBehaviour
         FigureOutLadders();
         ShowSummoningMenu();
         if(!isSummoning){
+            summoningMenu.SetActive(false);
             HandleInput();
         }
         Animate();

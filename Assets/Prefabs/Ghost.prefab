@@ -145,5 +145,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: 1
   moveSpeed: 1
-  frame1: {fileID: 21300000, guid: 944179b48929c6549a8eba41cbfd787c, type: 3}
-  frame2: {fileID: 21300000, guid: 9ae0cca1908579c4e9f935e8be45d87c, type: 3}
+  frame1: {fileID: 21300000, guid: 75ee29149f8585440ac4a9d1e9748f7d, type: 3}
+  frame2: {fileID: 21300000, guid: f773ca1b00cb7d148b97d2b3621ac68c, type: 3}

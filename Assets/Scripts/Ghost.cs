@@ -47,7 +47,7 @@ public class Ghost : MonoBehaviour
     }
 
     void KillPeople(){
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, 0.01f, LayerMask.GetMask("Skeleton", "Slime", "Zombie"));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, 0.01f, LayerMask.GetMask("Skeleton", "Slime", "Zombie", "Mummy"));
         if (hit.collider != null){
             GameObject other = hit.transform.gameObject;
             if(other.GetComponent<Zombie>()){
@@ -56,6 +56,8 @@ public class Ghost : MonoBehaviour
                 other.GetComponent<Slime>().GetGhosted();
             }else if(other.GetComponent<Skeleton>()){
                 other.GetComponent<Skeleton>().GetGhosted();
+            }else if(other.GetComponent<Mummy>()){
+                other.GetComponent<Mummy>().GetGhosted();
             }
             GetGhosted();
         }

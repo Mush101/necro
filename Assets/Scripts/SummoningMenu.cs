@@ -170,6 +170,10 @@ public class SummoningMenu : MonoBehaviour
                 mob.GetComponent<Slime>().direction = Slime.Directions.right;
             else
                 mob.GetComponent<Slime>().direction = Slime.Directions.left;
+        }else if ((c1 == Enums.Components.cloth && c2 == Enums.Components.cloth)){
+            GameObject mob = Instantiate(mummyPrefab);
+            mob.transform.position = player.transform.position + new Vector3(0,0.2f);
+            mob.transform.position = new Vector3(Mathf.Round(mob.transform.position.x + 0.5f)-0.5f, mob.transform.position.y);
         }else if ((c1 == Enums.Components.cloth && c2 == Enums.Components.goo) || (c2 == Enums.Components.cloth && c1 == Enums.Components.goo)){
             GameObject mob = Instantiate(ghostPrefab);
             mob.transform.position = player.transform.position + new Vector3(0,0.2f);
