@@ -25,6 +25,8 @@ public class Player : MonoBehaviour
     private GameObject checkpoint;
     private GameObject summoningMenu;
 
+    private GameObject fishFriend;
+
     // Start is called before the first frame update
     void Start(){
         direction = Directions.right;
@@ -36,6 +38,7 @@ public class Player : MonoBehaviour
     void Update(){
         FigureOutLadders();
         ShowSummoningMenu();
+        LookForFishFriend();
         if(!isSummoning){
             summoningMenu.SetActive(false);
             HandleInput();
@@ -43,9 +46,33 @@ public class Player : MonoBehaviour
         Animate();
     }
 
+    void LookForFishFriend(){
+        RaycastHit2D hit = Physics2D.Raycast(transform.position + new Vector3(0,0.5f), Vector2.right - Vector2.up, 1.5f, LayerMask.GetMask("Fishman"));
+        if (hit.collider != null){
+            GameObject fish = hit.transform.gameObject;
+            if(fish.GetComponent<Fishman>().inWater && !fish.GetComponent<Fishman>().riding){
+                fishFriend = fish;
+                fish.GetComponent<Fishman>().riding = true;
+            }
+        }
+        hit = Physics2D.Raycast(transform.position + new Vector3(0,0.5f), - Vector2.right - Vector2.up, 1.5f, LayerMask.GetMask("Fishman"));
+        if (hit.collider != null){
+            GameObject fish = hit.transform.gameObject;
+            if(fish.GetComponent<Fishman>().inWater && !fish.GetComponent<Fishman>().riding){
+                fishFriend = fish;
+                fish.GetComponent<Fishman>().riding = true;
+            }
+        }
+    }
+
     void FixedUpdate(){
         if(!isSummoning){
-            Move();
+            
+            if (fishFriend == null){
+                Move();
+            }else{
+                Ride();
+            }
         }
     }
 
@@ -131,6 +158,7 @@ public class Player : MonoBehaviour
     }
 
     void Move(){
+        rb.gravityScale = 1;
         // Check for walking off edges.
         if(direction == Directions.right){
             RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right - Vector2.up, 1.0f, LayerMask.GetMask("Ground", "Vines"));
@@ -147,6 +175,18 @@ public class Player : MonoBehaviour
             rb.velocity = movement * movementSpeed + new Vector3(0, rb.velocity.y);
         }else{ 
             rb.velocity = movement * movementSpeed;
+        }
+    }
+
+    void Ride(){
+        rb.gravityScale = 0;
+        transform.position = fishFriend.transform.position + new Vector3(0,0.5f);
+        if(fishFriend.transform.localScale.y < 1){
+            if(fishFriend.GetComponent<Fishman>().direction == Fishman.Directions.right)
+                transform.position += new Vector3(0.5f,0.5f);
+            else
+                transform.position += new Vector3(-0.5f,0.5f);
+            fishFriend = null;
         }
     }
 

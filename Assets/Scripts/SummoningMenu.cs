@@ -181,6 +181,13 @@ public class SummoningMenu : MonoBehaviour
                 mob.GetComponent<Ghost>().direction = Ghost.Directions.right;
             else
                 mob.GetComponent<Ghost>().direction = Ghost.Directions.left;
+        }else if ((c1 == Enums.Components.bone && c2 == Enums.Components.goo) || (c2 == Enums.Components.bone && c1 == Enums.Components.goo)){
+            GameObject mob = Instantiate(fishPrefab);
+            mob.transform.position = player.transform.position + new Vector3(0,0.2f);
+            if(player.GetComponent<Player>().IsFacingRight())
+                mob.GetComponent<Fishman>().direction = Fishman.Directions.right;
+            else
+                mob.GetComponent<Fishman>().direction = Fishman.Directions.left;
         }
 
         summoningCircle2.GetComponent<SummoningCircle>().component = Enums.Components.none;
