@@ -6,10 +6,13 @@ public class Checkpoint : MonoBehaviour
 {
 
     public GameObject summoningMenu;
+    public GameObject player;
     
     // Start is called before the first frame update
     void Start(){
-        
+        summoningMenu = GameObject.Find("Player/SummoningMenu");
+        summoningMenu.SetActive(false);
+        player = GameObject.Find("Player");
     }
 
     // Update is called once per frame
@@ -18,13 +21,14 @@ public class Checkpoint : MonoBehaviour
         if (hit.collider != null){
             DoCheckpoint();
         }
-        if (!summoningMenu){
-            summoningMenu = GameObject.Find("Player/SummoningMenu");
-        }
     }
 
     void DoCheckpoint(){
+
+        player.GetComponent<Player>().DoCheckpoint(gameObject);
+
         summoningMenu.GetComponent<SummoningMenu>().DoCheckpoint();
+
         GameObject[] monsters = GameObject.FindGameObjectsWithTag("Monster");
 
         foreach (GameObject other in monsters){

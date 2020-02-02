@@ -22,6 +22,8 @@ public class Player : MonoBehaviour
 
     private bool justPressed;
 
+    private GameObject checkpoint;
+
     // Start is called before the first frame update
     void Start(){
         direction = Directions.right;
@@ -98,6 +100,11 @@ public class Player : MonoBehaviour
                     isSummoning = true;
                     turnToCentre = true;
                     rb.velocity = new Vector3();
+                }
+                justPressed = true;
+            }else if(Input.GetButton("Fire3") && !isSummoning){
+                if(!justPressed){
+                    ReturnToCheckpoint();
                 }
                 justPressed = true;
             }else{
@@ -205,5 +212,14 @@ public class Player : MonoBehaviour
 
     public bool IsFacingRight(){
         return direction == Directions.right;
+    }
+
+    public void DoCheckpoint(GameObject cp){
+        checkpoint = cp;
+    }
+
+    public void ReturnToCheckpoint(){
+        if(checkpoint)
+            transform.position = checkpoint.transform.position;
     }
 }
