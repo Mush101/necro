@@ -25,6 +25,9 @@ public class Checkpoint : MonoBehaviour
             if(Input.GetAxis("Vertical") > 0){
                 DoCheckpoint();
             }
+            transform.Find("up").gameObject.SetActive(true);
+        }else{
+            transform.Find("up").gameObject.SetActive(false);
         }
 
         timer +=0.1f;

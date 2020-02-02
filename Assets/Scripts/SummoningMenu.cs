@@ -20,9 +20,9 @@ public class SummoningMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start(){
         currentComponent = Enums.Components.bone;
-        max_bones = 5;
-        max_cloth = 5;
-        max_goo = 5;
+        max_bones = 0;
+        max_cloth = 0;
+        max_goo = 0;
         DoCheckpoint();
     }
 
@@ -109,7 +109,7 @@ public class SummoningMenu : MonoBehaviour
         switch(component){
             case Enums.Components.bone:
                 return num_bones;
-            case Enums.Components.cloth:
+            case Enums  .Components.cloth:
                 return num_cloth;
             case Enums.Components.goo:
                 return num_goo;
@@ -140,6 +140,23 @@ public class SummoningMenu : MonoBehaviour
                 num_cloth +=1;
                 break;
             case Enums.Components.goo:
+                num_goo +=1;
+                break;
+        }
+    }
+
+    public void NewItem(Enums.Components component){
+        switch(component){
+            case Enums.Components.bone:
+                max_bones+=1;
+                num_bones +=1;
+                break;
+            case Enums.Components.cloth:
+                max_cloth+=1;
+                num_cloth +=1;
+                break;
+            case Enums.Components.goo:
+                max_goo+=1;
                 num_goo +=1;
                 break;
         }

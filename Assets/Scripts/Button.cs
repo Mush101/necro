@@ -17,12 +17,12 @@ public class Button : MonoBehaviour
         open = new bool[10];
         colours = new Color[10];
         colours[1] = Color.cyan;
-        colours[2] = Color.blue;
-        colours[3] = Color.grey;
-        colours[4] = Color.magenta;
+        colours[2] = Color.magenta;
+        colours[3] = Color.yellow;
+        colours[4] = Color.blue;
         colours[5] = Color.red;
         colours[6] = Color.white;
-        colours[7] = Color.yellow;
+        colours[7] = Color.grey;
         colours[8] = Color.black;
 
         char num = gameObject.name[6];

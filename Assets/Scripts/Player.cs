@@ -27,23 +27,48 @@ public class Player : MonoBehaviour
 
     private GameObject fishFriend;
 
+    public int numMacguffins = 0;
+    public GameObject trophyPrefab, door;
+
+    public float cameraTime = 0.0f;
+    public GameObject endScreen, startScreen;
+    private bool gameStart = false;
+
     // Start is called before the first frame update
     void Start(){
         direction = Directions.right;
         rb = GetComponent<Rigidbody2D>();
         summoningMenu = transform.Find("SummoningMenu").gameObject;
+        door = GameObject.Find("Door");
     }
 
     // Update is called once per frame
     void Update(){
-        FigureOutLadders();
-        ShowSummoningMenu();
-        LookForFishFriend();
-        if(!isSummoning){
-            summoningMenu.SetActive(false);
-            HandleInput();
+        if(gameStart){
+            if (cameraTime>0){
+                cameraTime-=0.1f;
+                if(numMacguffins >= 10 && cameraTime<1){
+                    cameraTime = 1;
+                    endScreen.SetActive(true);
+            }
+            }else{
+                FigureOutLadders();
+                ShowSummoningMenu();
+                LookForFishFriend();
+                if(!isSummoning){
+                    summoningMenu.SetActive(false);
+                    HandleInput();
+                }
+                Animate();
+            }
+        }else{
+            summoningMenu.SetActive(false); 
+            if(Input.GetButton("Fire1")){
+                gameStart = true;                    
+                startScreen.SetActive(false);
+                justPressed = true;
+            }
         }
-        Animate();
     }
 
     void LookForFishFriend(){
@@ -66,7 +91,7 @@ public class Player : MonoBehaviour
     }
 
     void FixedUpdate(){
-        if(!isSummoning){
+        if(!isSummoning && cameraTime<=0 && gameStart){
             
             if (fishFriend == null){
                 Move();
@@ -158,7 +183,9 @@ public class Player : MonoBehaviour
     }
 
     void Move(){
-        rb.gravityScale = 1;
+        if(!isOnLadder){
+            rb.gravityScale = 1;
+        }
         // Check for walking off edges.
         if(direction == Directions.right){
             RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right - Vector2.up, 1.0f, LayerMask.GetMask("Ground", "Vines"));
@@ -264,5 +291,13 @@ public class Player : MonoBehaviour
     public void ReturnToCheckpoint(){
         if(checkpoint)
             transform.position = checkpoint.transform.position;
+    }
+
+    public void GetMacguffin(){
+        numMacguffins+=1;
+        GameObject trophy = Instantiate(trophyPrefab);
+        trophy.transform.position = door.transform.position + new Vector3(0,3);
+        cameraTime = 20.0f;
+        rb.velocity = Vector3.zero;
     }
 }

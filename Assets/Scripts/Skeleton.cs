@@ -51,14 +51,14 @@ public class Skeleton : MonoBehaviour
         if(!dying && !stop){
             if (direction == Directions.right){
                 rb.velocity = new Vector3(1.0f, rb.velocity.y) * moveSpeed;
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right, 0.3f, LayerMask.GetMask("Ground", "Vines"));
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right, 0.3f, LayerMask.GetMask("Ground", "Vines", "Holes"));
                 if (hit.collider != null){
                     dying = true;
                     rb.velocity = new Vector3(0, rb.velocity.y);
                 }
             }else{
                 rb.velocity = new Vector3(-1.0f, rb.velocity.y) * moveSpeed;
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.right, 0.3f, LayerMask.GetMask("Ground", "Vines"));
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.right, 0.3f, LayerMask.GetMask("Ground", "Vines", "Holes"));
                 if (hit.collider != null){
                     dying = true;
                     rb.velocity = new Vector3(0, rb.velocity.y);
