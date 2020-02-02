@@ -13,9 +13,17 @@ public class SummoningMenu : MonoBehaviour
 
     public GameObject zombiePrefab, slimePrefab, skeletonPrefab, fishPrefab, ghostPrefab, mummyPrefab;
 
+    private int num_bones, num_cloth, num_goo, max_bones, max_cloth, max_goo;
+
+    public Sprite one, two, three, four, five;
+
     // Start is called before the first frame update
     void Start(){
         currentComponent = Enums.Components.bone;
+        max_bones = 5;
+        max_cloth = 5;
+        max_goo = 5;
+        DoCheckpoint();
     }
 
     // Update is called once per frame
@@ -54,8 +62,10 @@ public class SummoningMenu : MonoBehaviour
                 justPressedButton = true;
 
                 if(summoningCircle2.GetComponent<SummoningCircle>().component != Enums.Components.none){
+                    Increase(summoningCircle2.GetComponent<SummoningCircle>().component);
                     summoningCircle2.GetComponent<SummoningCircle>().component = Enums.Components.none;
                 }else if(summoningCircle1.GetComponent<SummoningCircle>().component != Enums.Components.none){
+                    Increase(summoningCircle1.GetComponent<SummoningCircle>().component);
                     summoningCircle1.GetComponent<SummoningCircle>().component = Enums.Components.none;
                 }else{
                     player.GetComponent<Player>().StopSummoning();
@@ -69,11 +79,15 @@ public class SummoningMenu : MonoBehaviour
                 justPressedButton = true;
                 
                 if(summoningCircle1.GetComponent<SummoningCircle>().component == Enums.Components.none){
-                    summoningCircle1.GetComponent<SummoningCircle>().component = currentComponent;
-
+                    if(HowMany(currentComponent) > 0){
+                        summoningCircle1.GetComponent<SummoningCircle>().component = currentComponent;
+                        Reduce(currentComponent);
+                    }
                 }else if(summoningCircle2.GetComponent<SummoningCircle>().component == Enums.Components.none){
-                    summoningCircle2.GetComponent<SummoningCircle>().component = currentComponent;
-
+                    if(HowMany(currentComponent) > 0){
+                        summoningCircle2.GetComponent<SummoningCircle>().component = currentComponent;
+                        Reduce(currentComponent);
+                    }
                 }else{
                     player.GetComponent<Player>().StopSummoning();
                     gameObject.SetActive(false);
@@ -87,6 +101,48 @@ public class SummoningMenu : MonoBehaviour
         }
 
         MoveArrow();
+
+        SetVisibleNumbers();
+    }
+
+    int HowMany(Enums.Components component){
+        switch(component){
+            case Enums.Components.bone:
+                return num_bones;
+            case Enums.Components.cloth:
+                return num_cloth;
+            case Enums.Components.goo:
+                return num_goo;
+        }
+        return 0;
+    }
+
+    void Reduce(Enums.Components component){
+        switch(component){
+            case Enums.Components.bone:
+                num_bones -=1;
+                break;
+            case Enums.Components.cloth:
+                num_cloth -=1;
+                break;
+            case Enums.Components.goo:
+                num_goo -=1;
+                break;
+        }
+    }
+
+    void Increase(Enums.Components component){
+        switch(component){
+            case Enums.Components.bone:
+                num_bones +=1;
+                break;
+            case Enums.Components.cloth:
+                num_cloth +=1;
+                break;
+            case Enums.Components.goo:
+                num_goo +=1;
+                break;
+        }
     }
 
     void Summon(){
@@ -149,5 +205,57 @@ public class SummoningMenu : MonoBehaviour
                     break;
             }
         }
+    }
+
+    void SetVisibleNumbers(){
+        if(num_bones > 0){
+            transform.Find("Bone").gameObject.GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
+            transform.Find("Bone/Number").gameObject.SetActive(true);
+        }else{
+            transform.Find("Bone").gameObject.GetComponent<SpriteRenderer>().color = new Color(0,0,0,0.5f);
+            transform.Find("Bone/Number").gameObject.SetActive(false);
+        }
+
+        if(num_cloth > 0){
+            transform.Find("Cloth").gameObject.GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
+            transform.Find("Cloth/Number").gameObject.SetActive(true);
+        }else{
+            transform.Find("Cloth").gameObject.GetComponent<SpriteRenderer>().color = new Color(0,0,0,0.5f);
+            transform.Find("Cloth/Number").gameObject.SetActive(false);
+        }
+
+        if(num_goo > 0){
+            transform.Find("Goo").gameObject.GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
+            transform.Find("Goo/Number").gameObject.SetActive(true);
+        }else{
+            transform.Find("Goo").gameObject.GetComponent<SpriteRenderer>().color = new Color(0,0,0,0.5f);
+            transform.Find("Goo/Number").gameObject.SetActive(false);
+        }
+
+        transform.Find("Bone/Number").GetComponent<SpriteRenderer>().sprite = GetNumSprite(num_bones);
+        transform.Find("Cloth/Number").GetComponent<SpriteRenderer>().sprite = GetNumSprite(num_cloth);
+        transform.Find("Goo/Number").GetComponent<SpriteRenderer>().sprite = GetNumSprite(num_goo);
+    }
+
+    Sprite GetNumSprite(int num){
+        switch(num){
+            case 1:
+                return one;
+            case 2:
+                return two;
+            case 3:
+                return three;
+            case 4:
+                return four;
+            case 5:
+                return five;
+        }
+        return five;
+    }
+
+    public void DoCheckpoint(){
+        num_bones = max_bones;
+        num_cloth = max_cloth;
+        num_goo = max_goo;
     }
 }

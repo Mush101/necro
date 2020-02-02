@@ -64,3 +64,6 @@ MonoBehaviour:
   - m_TypeName: PlantBase
     m_Prefab: {fileID: 8702456020963948266, guid: 0a04a0886bf3ec54db9aa3a7b9234c63,
       type: 3}
+  - m_TypeName: Checkpoint
+    m_Prefab: {fileID: 131587507998516680, guid: 8a1670b4fddf1874d8441a9b95c197c2,
+      type: 3}
