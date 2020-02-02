@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
 
     private bool justPressed;
 
-    private GameObject checkpoint;
+    public GameObject checkpoint;
     private GameObject summoningMenu;
 
     private GameObject fishFriend;

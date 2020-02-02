@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 412a73976964e1e4ba8b16d47f33102a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 44d2438205ed0f542a2b4447986e7545, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -144,3 +144,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   summoningMenu: {fileID: 0}
+  player: {fileID: 0}
+  off: {fileID: 21300000, guid: 44d2438205ed0f542a2b4447986e7545, type: 3}
+  on1: {fileID: 21300000, guid: 6ffc732d4beced24f97408a011181a45, type: 3}
+  on2: {fileID: 21300000, guid: 899b14f578d8c984c9edb173b37da2b9, type: 3}
+  on3: {fileID: 21300000, guid: fbec3aa277e7a0848ba9c6d62de2df71, type: 3}

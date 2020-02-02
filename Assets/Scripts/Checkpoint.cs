@@ -7,6 +7,10 @@ public class Checkpoint : MonoBehaviour
 
     public GameObject summoningMenu;
     public GameObject player;
+
+    public Sprite off, on1, on2, on3;
+
+    private float timer = 0.0f;
     
     // Start is called before the first frame update
     void Start(){
@@ -21,6 +25,23 @@ public class Checkpoint : MonoBehaviour
             if(Input.GetAxis("Vertical") > 0){
                 DoCheckpoint();
             }
+        }
+
+        timer +=0.1f;
+        if(timer>3){
+            timer = 0.0f;
+        }
+
+        if(player.GetComponent<Player>().checkpoint == gameObject){
+            if (timer>2){
+                GetComponent<SpriteRenderer>().sprite = on3;
+            }else if (timer>1){
+                GetComponent<SpriteRenderer>().sprite = on2;
+            }else{
+                GetComponent<SpriteRenderer>().sprite = on1;
+            }
+        }else{
+            GetComponent<SpriteRenderer>().sprite = off;
         }
     }
 
